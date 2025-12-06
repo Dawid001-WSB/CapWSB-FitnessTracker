@@ -1,52 +1,49 @@
 package pl.wsb.fitnesstracker.healthmetrics;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import pl.wsb.fitnesstracker.user.api.User;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+/* Entity class representing health metrics.
+ * To be implemented with appropriate fields and methods.
+ */
 @Entity
-@Table(name = "health_metrics")
+@Table(name = "Health_Metrics")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class HealthMetrics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // przykładowe pola – testy ich nie sprawdzają, ale mogą się przydać w aplikacji
-    @Column(name = "height", nullable = false)
-    private double height;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
-    @Column(name = "weight", nullable = false)
-    private double weight;
+    @Column
+    private Double weight;
 
-    @Column(name = "bmi", nullable = false)
-    private double bmi;
+    @Column
+    private Double height;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "heart_rate")
+    private Integer heartRate;
 
-    public HealthMetrics(User user,
-                         double height,
-                         double weight,
-                         double bmi,
-                         LocalDateTime createdAt) {
-        this.user = user;
-        this.height = height;
-        this.weight = weight;
-        this.bmi = bmi;
-        this.createdAt = createdAt;
+    public HealthMetrics() {
     }
+
+    public HealthMetrics(User user, LocalDate date, Double weight, Double height, Integer heartRate) {
+        this.user = user;
+        this.date = date;
+        this.weight = weight;
+        this.height = height;
+        this.heartRate = heartRate;
+    }
+
+
 }
